@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Alert</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: #050505;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #start {
+            padding: 25px 50px;
+            font-size: 25px;
+            font-weight: bold;
+            color: white;
+            background: #d40000;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 0 30px red;
+        }
+
+        #start:hover {
+            background: #ff0000;
+            transform: scale(1.05);
+        }
+
+        #screen {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #090000;
+            overflow: hidden;
+        }
+
+        .danger {
+            text-align: center;
+            margin-top: 30px;
+            color: red;
+            font-size: 45px;
+            font-weight: bold;
+            animation: blink 0.5s infinite;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: white;
+            font-size: 22px;
+        }
+
+        .window {
+            position: absolute;
+            width: 280px;
+            background: #111;
+            border: 2px solid red;
+            box-shadow: 0 0 20px red;
+            border-radius: 8px;
+            overflow: hidden;
+            animation: appear 0.2s;
+        }
+
+        .window-title {
+            background: #d00000;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        .window-content {
+            padding: 18px;
+            color: #eee;
+        }
+
+        .fake-button {
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: red;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes appear {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <button id="start" onclick="startPrank()">
+        ⚠️ НАЖМИТЕ
+    </button>
+
+    <div id="screen">
+        <div class="danger">⚠ ВАШЕ УСТРОЙСТВО ЗАХВАЧЕНО ⚠</div>
+        <div class="subtitle">
+            Идёт проверка системы...
+        </div>
+    </div>
+
+    <script>
+        function startPrank() {
+            document.getElementById("start").style.display = "none";
+            document.getElementById("screen").style.display = "block";
+
+            let count = 0;
+
+            let timer = setInterval(() => {
+                createWindow();
+                count++;
+
+                if (count >= 30) {
+                    clearInterval(timer);
+                }
+            }, 150);
+        }
+
+        function createWindow() {
+            const win = document.createElement("div");
+            win.className = "window";
+
+            const x = Math.random() * (window.innerWidth - 300);
+            const y = Math.random() * (window.innerHeight - 180);
+
+            win.style.left = x + "px";
+            win.style.top = y + "px";
+
+            win.innerHTML = `
+                <div class="window-title">
+                    ⚠ SYSTEM ALERT
+                </div>
+
+                <div class="window-content">
+                    Обнаружена подозрительная активность!<br><br>
+                    Устройство находится под контролем...
+                    <br>
+                    <button class="fake-button">
+                        ОК
+                    </button>
+                </div>
+            `;
+
+            document.getElementById("screen").appendChild(win);
+        }
+    </script>
+
+</body>
+</html>
